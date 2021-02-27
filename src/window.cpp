@@ -1,10 +1,12 @@
 #include "../include/window.hpp"
-#include <X11/X.h>
+
+#include <GL/glew.h>
 
 #define GLFW_EXPOSE_NATIVE_X11
 #include <GLFW/glfw3.h>
 #include <GLFW/glfw3native.h>
 
+#include <X11/X.h>
 #include <X11/Xlib.h>
 
 #include <stdexcept>
@@ -108,8 +110,13 @@ namespace awfl {
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 
         // Window settings
-        glfwWindowHint(GLFW_DECORATED, false);
-        glfwWindowHint(GLFW_RESIZABLE, false);
+        glfwWindowHint(GLFW_DECORATED    , false);
+        glfwWindowHint(GLFW_RESIZABLE    , false);
+        glfwWindowHint(GLFW_FOCUS_ON_SHOW, false);
+        glfwWindowHint(GLFW_ICONIFIED    , false);
+        glfwWindowHint(GLFW_AUTO_ICONIFY , false);
+        glfwWindowHint(GLFW_HOVERED      , true );
+        glfwWindowHint(GLFW_FLOATING     , true );
 
         // Get window dimensions and setup video mode
         GLFWmonitor* monitor = glfwGetPrimaryMonitor();
@@ -131,12 +138,37 @@ namespace awfl {
        
         glfwMakeContextCurrent(window);
 
-
         created = true;
     }
-    // -------------------------------------------------
     
+    // -------------------------------------------------
     bool Window::opened() const {
         return !glfwWindowShouldClose(window);
     }
+
+    // -------------------------------------------------
+    void Window::handle_events() {
+        glfwPollEvents();
+    }
+    
+    // -------------------------------------------------
+    void Window::create_opengl_context()
+    {
+        // Initializing OpenGL
+        glewExperimental = true;
+        if(glewInit() != GLEW_OK)
+            throw std::runtime_error("Failed to initialize GLEW!\n");
+
+        // Setting the opengl viewport to window size
+        int width, height;
+        glfwGetWindowSize(window, &width, &height);
+        glViewport(0, 0, width, height);
+    }
+
+    // -------------------------------------------------
+    void Window::swap_buffers() {
+        glfwSwapBuffers(window);
+    }
+
+
 }
