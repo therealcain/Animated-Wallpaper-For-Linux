@@ -1,5 +1,4 @@
 # Animated Wallpaper For Linux aka AWFL ( Will be updated )
-![Alt text]()
 <img src="https://travis-ci.com/therealcain/Animated-Wallpaper-For-Linux.svg">
 
 ## What is it?
