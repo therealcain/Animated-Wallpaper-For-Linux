@@ -1,20 +1,24 @@
 #include "../include/window.hpp"
-#include <GLFW/glfw3.h>
 
+#include <iostream>
+#include <GL/glew.h>
+
+#include "../include/env.hpp"
 int main()
 {
-
     awfl::Window window;
     window.create();
     window.create_opengl_context();
 
+    std::cout << awfl::Env::get_username().value() << std::endl;
+
     while(window.opened())
     {
-        window.handle_events();
-        
+        // OpenGL
         glClear(GL_COLOR_BUFFER_BIT);
-        glClearColor(0.2f, 0.3f, 0.3f, 1.f);
 
+        // Window
+        window.handle_events();
         window.swap_buffers();
     }
 }
