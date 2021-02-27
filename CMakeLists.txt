@@ -14,10 +14,10 @@ if(UNIX)
     # X11
     find_package(X11 REQUIRED)
     include_directories(${X11_INCLUDE_DIR})
+    
+    # GLFW
+    find_package(glfw3 REQUIRED)
 
-    # XCB
-    # find_package(XCB REQUIRED)
-    # include_directories(${XCB_INCLUDE_DIR})
 
     # OpenGL
     find_package(OpenGL REQUIRED)
@@ -29,9 +29,12 @@ if(UNIX)
 
     # Compiling
     add_executable(${CMAKE_PROJECT_NAME}
-        src/main.cpp)
+        src/main.cpp
+        src/window.cpp
 
-    target_link_libraries(${CMAKE_PROJECT_NAME} ${X11_LIBRARIES} ${XCB_LIBRARIES} ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES})
+        include/window.hpp)
+
+    target_link_libraries(${CMAKE_PROJECT_NAME} ${X11_LIBRARIES} glfw ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES})
 
 else()
     message(FATAL_ERROR "Your platform is not supported.")
