@@ -1,7 +1,5 @@
 #pragma once
 
-#include <cstdint>
-
 // Forward declaration
 // to avoid including glfw everywhere
 class GLFWwindow;

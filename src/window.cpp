@@ -13,6 +13,7 @@
 
 namespace awfl {
 
+    [[maybe_unused]]
     static void error_callback(int error, const char* desc) {
         std::cerr << "Error ID: " << error << ", " << desc << std::endl;
     }   
@@ -107,9 +108,8 @@ namespace awfl {
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 
         // Window settings
-        glfwWindowHint(GLFW_DECORATED    , false);
-        glfwWindowHint(GLFW_RESIZABLE    , false);
-        glfwWindowHint(GLFW_FLOATING     , true);
+        glfwWindowHint(GLFW_DECORATED, false);
+        glfwWindowHint(GLFW_RESIZABLE, false);
 
         // Get window dimensions and setup video mode
         GLFWmonitor* monitor = glfwGetPrimaryMonitor();
@@ -120,6 +120,8 @@ namespace awfl {
         glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
 
         // Try to create window
+        // Setting the dimensions as screen dimensions to make
+        // borderless fullscreen.
         window = glfwCreateWindow(mode->width, mode->height, "", monitor, nullptr);
 
         if(window == nullptr)
