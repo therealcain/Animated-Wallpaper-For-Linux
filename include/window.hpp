@@ -4,7 +4,7 @@
 // to avoid including glfw everywhere
 class GLFWwindow;
 
-namespace awfl {
+namespace de {
 
     class Window
     {

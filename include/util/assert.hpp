@@ -3,13 +3,13 @@
 #include <assert.h>
 
 #ifdef DEBUG_MODE
-# define AWFL_ASSERT(x) assert(x)
+# define DE_ASSERT(x) assert(x)
 #else
-# define AWFL_ASSERT(x)
+# define DE_ASSERT(x)
 #endif
 
 #ifdef DEBUG_MODE
-# define AWFL_REFUTE_ASSERTION(x) assert(!x)
+# define DE_REFUTE_ASSERTION(x) assert(!x)
 #else
-# define AWFL_REFUTE_ASSERTION(x)
+# define DE_REFUTE_ASSERTION(x)
 #endif

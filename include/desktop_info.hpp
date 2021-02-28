@@ -2,7 +2,7 @@
 
 #include <string>
 
-namespace awfl {
+namespace de {
 
     class DesktopInfo
     {

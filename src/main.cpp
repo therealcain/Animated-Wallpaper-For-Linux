@@ -5,11 +5,11 @@
 
 int main()
 {
-    awfl::Window window;
+    de::Window window;
     window.create();
     window.create_opengl_context();
 
-    awfl::DesktopInfo info;
+    de::DesktopInfo info;
     info.fetch_desktop();
 
     while(window.opened())

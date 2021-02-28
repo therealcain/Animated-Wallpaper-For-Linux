@@ -14,7 +14,7 @@
 #include <iostream>
 #include <cstring>
 
-namespace awfl {
+namespace de {
 
     [[maybe_unused]]
     static void error_callback(int error, const char* desc) {
@@ -127,7 +127,7 @@ namespace awfl {
         // Get window dimensions and setup video mode
         monitor_info.monitor = glfwGetPrimaryMonitor();
         const GLFWvidmode* mode = glfwGetVideoMode(monitor_info.monitor);
-        AWFL_ASSERT(mode != nullptr);
+        DE_ASSERT(mode != nullptr);
 
         glfwWindowHint(GLFW_RED_BITS    , mode->redBits);
         glfwWindowHint(GLFW_GREEN_BITS  , mode->greenBits);

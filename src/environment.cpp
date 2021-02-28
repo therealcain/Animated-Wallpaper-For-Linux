@@ -5,7 +5,7 @@
 
 #include <stdexcept>
 
-namespace awfl {
+namespace de {
 
     std::string Environment::get_username()
     {

@@ -5,7 +5,7 @@
 #include <iostream>
 #include <vector>
 
-namespace awfl {
+namespace de {
 
     DesktopInfo::DesktopInfo()
     {
