@@ -1,4 +1,5 @@
 #include "../include/window.hpp"
+#include "../include/util//assert.hpp"
 
 #include <GL/glew.h>
 
@@ -96,20 +97,17 @@ namespace awfl {
             xclient.data.l[3] = 0;
             xclient.data.l[4] = 0;
 
-            
+            // Update Settings     
             XSendEvent(dpy, DefaultRootWindow(dpy), false, SubstructureRedirectMask | SubstructureNotifyMask, reinterpret_cast<XEvent*>(&xclient)); 
             XFlush(dpy);
         }
     }
 
     // -------------------------------------------------
-    void Window::create()
+    
+    static void setup_window_settings()
     {
-        // GLFW Minimum versions
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-
-        // Window settings
+         // Window settings
         glfwWindowHint(GLFW_DECORATED    , false);
         glfwWindowHint(GLFW_RESIZABLE    , false);
         glfwWindowHint(GLFW_FOCUS_ON_SHOW, false);
@@ -117,26 +115,45 @@ namespace awfl {
         glfwWindowHint(GLFW_AUTO_ICONIFY , false);
         glfwWindowHint(GLFW_HOVERED      , true );
         glfwWindowHint(GLFW_FLOATING     , true );
+    }
+
+    static auto sync_monitor_with_window()
+    {
+        struct {
+            GLFWmonitor* monitor;
+            uint16_t width, height;
+        } monitor_info;
 
         // Get window dimensions and setup video mode
-        GLFWmonitor* monitor = glfwGetPrimaryMonitor();
-        const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+        monitor_info.monitor = glfwGetPrimaryMonitor();
+        const GLFWvidmode* mode = glfwGetVideoMode(monitor_info.monitor);
+        AWFL_ASSERT(mode != nullptr);
+
         glfwWindowHint(GLFW_RED_BITS    , mode->redBits);
         glfwWindowHint(GLFW_GREEN_BITS  , mode->greenBits);
         glfwWindowHint(GLFW_BLUE_BITS   , mode->blueBits);
         glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
+        
+        return monitor_info;
+    }
 
-        // Try to create window
+    void Window::create()
+    {
+        // OpenGL Minimum versions (3.3)
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+
+        setup_window_settings();
+
         // Setting the dimensions as screen dimensions to make
         // borderless fullscreen.
-        window = glfwCreateWindow(mode->width, mode->height, "", monitor, nullptr);
+        auto monitor_info = sync_monitor_with_window();
+        window = glfwCreateWindow(monitor_info.width, monitor_info.height, "", monitor_info.monitor, nullptr);
 
         if(window == nullptr)
             throw std::runtime_error("Failed to create window!\n");
         
         force_window_behind(*window);
-       
-        glfwMakeContextCurrent(window);
 
         created = true;
     }
@@ -154,6 +171,8 @@ namespace awfl {
     // -------------------------------------------------
     void Window::create_opengl_context()
     {
+        glfwMakeContextCurrent(window);
+
         // Initializing OpenGL
         glewExperimental = true;
         if(glewInit() != GLEW_OK)
