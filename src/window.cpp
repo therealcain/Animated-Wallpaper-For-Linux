@@ -61,7 +61,7 @@ namespace de {
 #endif
         }
         else
-            throw std::runtime_error("Could not find atom for _NET_WM_STATE_ABOVE!\n");
+            throw std::runtime_error("Could not find atom for _NET_WM_STATE_BELOW!\n");
 
         // Finding the window state atom identifier.
         Atom wm_net_state = XInternAtom(dpy, "_NET_WM_STATE", 1);
@@ -133,7 +133,10 @@ namespace de {
         glfwWindowHint(GLFW_GREEN_BITS  , mode->greenBits);
         glfwWindowHint(GLFW_BLUE_BITS   , mode->blueBits);
         glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
-        
+       
+        monitor_info.width  = static_cast<uint16_t>(mode->width);
+        monitor_info.height = static_cast<uint16_t>(mode->height);
+
         return monitor_info;
     }
 
