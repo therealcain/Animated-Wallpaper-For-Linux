@@ -1,0 +1,8 @@
+## TODO FILE
+
+# Current Goals ( to achieve perfectly ):
+- Add a class to seperate between Name, Exec, Icon Path, Category.
+- Add <experimental/optional>.
+
+# Essential Paths
+- Preferred Applications: ~/.config/mimeapps.list

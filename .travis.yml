@@ -6,10 +6,10 @@ before_install:
   - sudo apt-get update -qq
 
 install:
-  - sudo apt-get install -y g++-8 mesa-utils libglew-dev glew-utils libglfw3-dev
+  - sudo apt-get install -y g++-8 mesa-utils libglew-dev glew-utils libx11-dev libglfw3-dev
 
 script:
-  - cmake -DCMAKE_BUILD_TYPE=Release
+  - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=g++-8
   - make -j
-  - cmake -DCMAKE_BUILD_TYPE=Debug
+  - cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=g++-8
   - make -j

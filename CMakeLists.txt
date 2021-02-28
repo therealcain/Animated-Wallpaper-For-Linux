@@ -18,7 +18,6 @@ if(UNIX)
     # GLFW
     find_package(glfw3 REQUIRED)
 
-
     # OpenGL
     find_package(OpenGL REQUIRED)
     include_directories(${OPENGL_INCLUDE_DIR})
