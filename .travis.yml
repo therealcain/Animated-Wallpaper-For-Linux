@@ -8,9 +8,6 @@ before_install:
 install:
   - sudo apt-get install -y g++-8 mesa-utils libglew-dev glew-utils libglfw3-dev
 
-before_install:
-  - eval "${MATRIX_EVAL}"
-
 script:
   - cmake -DCMAKE_BUILD_TYPE=Release
   - make -j

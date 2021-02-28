@@ -31,9 +31,14 @@ if(UNIX)
     add_executable(${CMAKE_PROJECT_NAME}
         src/main.cpp
         src/window.cpp
-        src/env.cpp
+        src/environment.cpp
+        src/desktop_info.cpp
         include/window.hpp
-        include/env.hpp)
+        include/environment.hpp
+        include/desktop_info.hpp
+        include/std/optional.hpp
+        include/std/filesystem.hpp
+        include/std/string_view.hpp)
 
     target_link_libraries(${CMAKE_PROJECT_NAME} ${X11_LIBRARIES} glfw ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES})
 
