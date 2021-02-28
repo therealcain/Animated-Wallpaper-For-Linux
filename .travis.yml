@@ -2,13 +2,32 @@ language: cpp
 compiler: gcc
 
 before_install:
+  # Adding the test repository of ubuntu
   - sudo add-apt-repository -y 'ppa:ubuntu-toolchain-r/test'
   - sudo apt-get update -qq
 
+  # Installing Essential Libraries
 install:
-  - sudo apt-get install -y g++-8 mesa-utils libglew-dev glew-utils libx11-dev libglfw3-dev
+  # GNU Compiler
+  - sudo apt-get install -y g++-8 
+
+  # OpenGL
+  - sudo apt-get install -y mesa-utils libglew-dev glew-utils libglu1-mesa-dev
+
+  # X11
+  - sudo apt-get install -y libx11-dev xorg-dev # X11
+
+  # GLFW3
+  - git clone https://github.com/glfw/glfw.git GLFW3
+  - cd GLFW3 && mkdir build && cd build
+  - cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release
+  - make -j
+  - sudo make install
+  - cd .. # go back to glfw3 folder ( not build )
+  - cd .. # go back to project
 
 script:
+  # Compiling Debug and Release Mode.
   - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=g++-8
   - make -j
   - cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=g++-8
