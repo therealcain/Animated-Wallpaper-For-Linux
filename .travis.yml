@@ -7,12 +7,6 @@ before_install:
   - sudo add-apt-repository -y 'ppa:ubuntu-toolchain-r/test'
   - sudo apt-get update -qq
 
-  # Adding LLVM repository
-  - wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
-  - sudo apt-add-repository "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-6.0 main"
-  - sudo apt-get update -qq
-  - sudo apt-get install -y clang-7.0
-
   # Installing Essential Libraries
 install:
   # GNU Compiler
@@ -39,9 +33,4 @@ script:
   - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=g++-8
   - make -j
   - cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=g++-8
-  - make -j
-  # CLANG
-  - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=clang++-7
-  - make -j
-  - cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=clang++-7
   - make -j
