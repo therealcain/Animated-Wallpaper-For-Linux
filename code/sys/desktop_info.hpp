@@ -1,11 +1,17 @@
 #pragma once
 
-#include <string>
+#include <vector>
+
+#include "application.hpp"
 
 class DesktopInfo
 {
 public:
-    DesktopInfo();
-    void fetch_desktop();
+    void clear();
+    void load();
+
+private:
+    using AppVec = std::vector<Application>;
+    AppVec apps;
 };
 

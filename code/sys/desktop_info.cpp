@@ -4,12 +4,17 @@
 #include <stdexcept>
 #include <iostream>
 #include <vector>
+#include "../std/filesystem"
 
-DesktopInfo::DesktopInfo()
-{}
+void DesktopInfo::clear() {
+    apps.clear();
+}
 
-void DesktopInfo::fetch_desktop()
+void DesktopInfo::load() 
 {
-            
+    static const fs::path desktop_path = Environment::get_home_path() / fs::path("Desktop/");
+    for(auto& p : fs::directory_iterator(desktop_path)) 
+    {
+    }
 }
 

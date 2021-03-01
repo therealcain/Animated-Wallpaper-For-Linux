@@ -1,0 +1,16 @@
+# GNOME:
+  * GNOME 2
+  * GNOME 3
+  * MATE
+  * Cinnamon
+
+## Apps locations:
+- /usr/share/applications/
+- ~/.local/share/applications/
+- /var/lib/snapd/desktop/applications/
+- /var/lib/flatpak/exports/share/applications/
+
+## Default Apps
+- ~/.config/mimeapps.list
+# https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types
+

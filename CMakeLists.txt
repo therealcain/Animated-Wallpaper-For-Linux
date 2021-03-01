@@ -45,11 +45,13 @@ if(UNIX)
         code/sys/environment.cpp
         code/sys/desktop_info.cpp
         code/sys/application.cpp
+        code/sys/mimeapps.cpp
         code/main_window.hpp
         code/main_app.hpp
         code/sys/environment.hpp
         code/sys/desktop_info.hpp
         code/sys/application.hpp
+        code/sys/mimeapps.hpp
         code/util/assert.hpp
         code/std/optional
         code/std/filesystem
