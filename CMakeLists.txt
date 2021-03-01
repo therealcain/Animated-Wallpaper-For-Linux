@@ -42,12 +42,12 @@ if(UNIX)
         code/main.cpp
         code/app.cpp
         code/window.cpp
-        code/environment.cpp
-        code/desktop_info.cpp
+        code/sys/environment.cpp
+        code/sys/desktop_info.cpp
         code/window.hpp
         code/app.hpp
-        code/environment.hpp
-        code/desktop_info.hpp
+        code/sys/environment.hpp
+        code/sys/desktop_info.hpp
         code/util/assert.hpp
         code/std/optional
         code/std/filesystem
