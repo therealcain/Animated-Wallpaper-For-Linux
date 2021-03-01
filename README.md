@@ -1,8 +1,8 @@
-# Desktop Engine 
+# Better Desktop
 <img src="https://travis-ci.com/therealcain/Animated-Wallpaper-For-Linux.svg">
 
 ## What is it?
-Desktop Engine is an extremely fast software written in Modern C++ that uses GLFW and OpenGL to promise best results possible, it is a wallpaper tweaker software for linux that allows:
+Better Desktop is an extremely fast software written in Modern C++ that uses GLFW and OpenGL to promise best results possible, it is a wallpaper tweaker software for linux that allows:
 - Play videos/images as wallpapers.
 - Play mouse animations on the wallpaper.
 - Create and configure:
