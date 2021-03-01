@@ -7,7 +7,7 @@ namespace de {
     class Environment
     {
     public:
-        static std::string get_username();
+        static const std::string& get_username();
     };
 
 }

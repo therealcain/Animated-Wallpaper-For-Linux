@@ -11,7 +11,7 @@ namespace de {
         void fetch_desktop();
 
     private:
-        inline static std::string desktop_folder;
+        inline static std::string home_path;
     };
 
 }

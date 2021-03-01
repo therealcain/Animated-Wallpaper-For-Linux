@@ -7,8 +7,19 @@ set(CMAKE_CXX_STANDARD 17)
 if(UNIX)
     # Warnings are enabled only for debug mode.
     if(CMAKE_BUILD_TYPE MATCHES Debug)
-        add_compile_options(-Wall -Wextra -Wpedantic)
+        add_compile_options(-Wall -Wextra -Wpedantic -O3 -g)
         add_definitions(-DDEBUG_MODE)
+    else() # Release Mode
+        add_compile_options(-O3)
+    endif()
+
+    # Which desktop envirnoment the user using.
+    if(DESKTOP_ENVIRONMENT MATCHES Gnome)
+        add_definitions(-DDESKTOP_ENVIRONMENT_GNOME)
+    elseif(DESKTOP_ENVIRONMENT MATCHES Mate)
+        add_definitions(-DDESKTOP_ENVIRONMENT_MATE)
+    else()
+        message(FATAL_ERROR "Please specify your desktop envirnoment. (e.g. -DDESKTOP_ENVIRONMENT=Gnome)")
     endif()
 
     # X11
@@ -35,6 +46,7 @@ if(UNIX)
         include/window.hpp
         include/environment.hpp
         include/desktop_info.hpp
+        include/util/assert.hpp
         include/std/optional.hpp
         include/std/filesystem.hpp
         include/std/string_view.hpp)

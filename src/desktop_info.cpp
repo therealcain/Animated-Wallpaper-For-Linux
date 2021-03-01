@@ -10,10 +10,11 @@ namespace de {
     DesktopInfo::DesktopInfo()
     {
         const auto username = Environment::get_username();
-        desktop_folder = std::string("/home/") + username + "/Desktop/"; 
+        home_path = std::string("/home/") + username + "/"; 
     }
 
     void DesktopInfo::fetch_desktop()
     {
+        
     }
 }

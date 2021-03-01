@@ -16,7 +16,6 @@ int main()
     {
         // OpenGL
         glClear(GL_COLOR_BUFFER_BIT);
-
         glClearColor(1.f, 0.5f, 0.5f, 1.f);
 
         // Window
