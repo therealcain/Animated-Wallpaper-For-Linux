@@ -1,5 +1,4 @@
-#include "../include/app.hpp"
-#include "../include/desktop_info.hpp"
+#include "app.hpp"
 
 #include <GL/glew.h>
 

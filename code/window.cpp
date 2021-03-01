@@ -1,5 +1,5 @@
-#include "../include/window.hpp"
-#include "../include/util//assert.hpp"
+#include "window.hpp"
+#include "util/assert.hpp"
 
 #include <GL/glew.h>
 

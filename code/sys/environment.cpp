@@ -1,4 +1,4 @@
-#include "../include/environment.hpp"
+#include "environment.hpp"
 
 #include <unistd.h>
 #include <pwd.h>

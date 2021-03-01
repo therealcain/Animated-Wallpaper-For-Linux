@@ -1,5 +1,5 @@
-#include "../include/desktop_info.hpp"
-#include "../include/environment.hpp"
+#include "desktop_info.hpp"
+#include "environment.hpp"
 
 #include <stdexcept>
 #include <iostream>
