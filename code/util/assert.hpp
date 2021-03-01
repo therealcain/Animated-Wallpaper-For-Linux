@@ -3,13 +3,13 @@
 #include <assert.h>
 
 #ifdef DEBUG_MODE
-# define DE_ASSERT(x) assert(x)
+# define ASSERT(x) assert(x)
 #else
-# define DE_ASSERT(x)
+# define ASSERT(x)
 #endif
 
 #ifdef DEBUG_MODE
-# define DE_REFUTE_ASSERTION(x) assert(!(x))
+# define REFUTE_ASSERTION(x) assert(!(x))
 #else
-# define DE_REFUTE_ASSERTION(x)
+# define REFUTE_ASSERTION(x)
 #endif

@@ -5,13 +5,11 @@
 #include <iostream>
 #include <vector>
 
-namespace de {
+DesktopInfo::DesktopInfo()
+{}
 
-    DesktopInfo::DesktopInfo()
-    {}
-
-    void DesktopInfo::fetch_desktop()
-    {
-                
-    }
+void DesktopInfo::fetch_desktop()
+{
+            
 }
+

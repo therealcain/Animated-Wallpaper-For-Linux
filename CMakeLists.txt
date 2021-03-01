@@ -40,13 +40,13 @@ if(UNIX)
     # Compiling
     add_executable(${CMAKE_PROJECT_NAME}
         code/main.cpp
-        code/app.cpp
-        code/window.cpp
+        code/main_app.cpp
+        code/main_window.cpp
         code/sys/environment.cpp
         code/sys/desktop_info.cpp
         code/sys/application.cpp
-        code/window.hpp
-        code/app.hpp
+        code/main_window.hpp
+        code/main_app.hpp
         code/sys/environment.hpp
         code/sys/desktop_info.hpp
         code/sys/application.hpp

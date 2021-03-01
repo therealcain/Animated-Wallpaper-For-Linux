@@ -1,8 +1,8 @@
-#include "app.hpp"
+#include "main_app.hpp"
 
 int main()
 {
-    de::App app;
+    App app;
     return app.run();
 }
 

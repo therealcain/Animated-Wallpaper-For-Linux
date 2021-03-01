@@ -2,13 +2,10 @@
 
 #include <string>
 
-namespace de {
+class DesktopInfo
+{
+public:
+    DesktopInfo();
+    void fetch_desktop();
+};
 
-    class DesktopInfo
-    {
-    public:
-        DesktopInfo();
-        void fetch_desktop();
-    };
-
-}
