@@ -1,26 +1,8 @@
-#include "../include/window.hpp"
-#include "../include/desktop_info.hpp"
-
-#include <GL/glew.h>
+#include "../include/app.hpp"
 
 int main()
 {
-    de::Window window;
-    window.create();
-    window.create_opengl_context();
-
-    de::DesktopInfo info;
-    info.fetch_desktop();
-
-    while(window.opened())
-    {
-        // OpenGL
-        glClear(GL_COLOR_BUFFER_BIT);
-        glClearColor(1.f, 0.5f, 0.5f, 1.f);
-
-        // Window
-        window.handle_events();
-        window.swap_buffers();
-    }
+    de::App app;
+    return app.run();
 }
 

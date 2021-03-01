@@ -30,7 +30,7 @@ install:
 script:
   # Compiling Debug and Release Mode.
   # GCC
-  - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=g++-8
+  - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=g++-8 -DDESKTOP_ENVIRONMENT=Mate
   - make -j
-  - cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=g++-8
+  - cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=g++-8 -DDESKTOP_ENVIRONMENT=Mate
   - make -j

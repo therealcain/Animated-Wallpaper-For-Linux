@@ -40,10 +40,12 @@ if(UNIX)
     # Compiling
     add_executable(${CMAKE_PROJECT_NAME}
         src/main.cpp
+        src/app.cpp
         src/window.cpp
         src/environment.cpp
         src/desktop_info.cpp
         include/window.hpp
+        include/app.hpp
         include/environment.hpp
         include/desktop_info.hpp
         include/util/assert.hpp

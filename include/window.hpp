@@ -1,7 +1,5 @@
 #pragma once
 
-// Forward declaration
-// to avoid including glfw everywhere
 class GLFWwindow;
 
 namespace de {
