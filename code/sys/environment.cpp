@@ -1,28 +1,26 @@
 #include "environment.hpp"
 
-#include <unistd.h>
-#include <pwd.h>
-
 #include <stdexcept>
 
 namespace de {
 
     const std::string& Environment::get_username()
     {
-        // This may break if the user changed his
-        // username, app restart is required.
-        static const uid_t uid = geteuid();
-        static const passwd* pw = getpwuid(uid);
-    
-        if(pw)
+        if(uinfo != nullptr)
         {
             // Just to avoid new memory allocation for the
             // same string over and over again.
-            static std::string as_string(pw->pw_name);
+            static std::string as_string(uinfo->pw_name);
             return as_string;
         }
         
         throw std::runtime_error("Failed to find username!\n");
     }
 
+    const fs::path& Environment::get_home_path()
+    {
+        static const std::string path_str = std::string("/home/") + get_username() + "/";
+        static const auto path = fs::path(path_str);
+        return path;
+    }
 }

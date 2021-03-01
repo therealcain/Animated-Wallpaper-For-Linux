@@ -7,10 +7,10 @@ set(CMAKE_CXX_STANDARD 17)
 if(UNIX)
     # Warnings are enabled only for debug mode.
     if(CMAKE_BUILD_TYPE MATCHES Debug)
-        add_compile_options(-Wall -Wextra -Wpedantic -O3 -g)
+        add_compile_options(-Wall -Wextra -Wpedantic -O3 -g -lc++fs)
         add_definitions(-DDEBUG_MODE)
     else() # Release Mode
-        add_compile_options(-O3)
+        add_compile_options(-O3 -lc++fs)
     endif()
 
     # Which desktop envirnoment the user using.
@@ -44,10 +44,12 @@ if(UNIX)
         code/window.cpp
         code/sys/environment.cpp
         code/sys/desktop_info.cpp
+        code/sys/application.cpp
         code/window.hpp
         code/app.hpp
         code/sys/environment.hpp
         code/sys/desktop_info.hpp
+        code/sys/application.hpp
         code/util/assert.hpp
         code/std/optional
         code/std/filesystem

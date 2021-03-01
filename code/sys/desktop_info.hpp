@@ -9,9 +9,6 @@ namespace de {
     public:
         DesktopInfo();
         void fetch_desktop();
-
-    private:
-        inline static std::string home_path;
     };
 
 }

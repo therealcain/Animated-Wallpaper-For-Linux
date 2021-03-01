@@ -9,7 +9,7 @@
 #endif
 
 #ifdef DEBUG_MODE
-# define DE_REFUTE_ASSERTION(x) assert(!x)
+# define DE_REFUTE_ASSERTION(x) assert(!(x))
 #else
 # define DE_REFUTE_ASSERTION(x)
 #endif
