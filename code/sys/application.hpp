@@ -1,3 +1,10 @@
+/**
+ * Created in The 2th of Februrary, 2021 by Eviatar
+ * ------------------------------------------------
+ * This file is a class that saves all of the 
+ * necessary information of the mimemapps.
+ **/
+
 #pragma once
 
 #include <string>

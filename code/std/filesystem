@@ -1,3 +1,12 @@
+/**
+ * Created in The 1th of Februrary, 2021 by Eviatar
+ * ------------------------------------------------
+ * Many early implementations of C++17 were 
+ * defining the filesystem header in an experimental
+ * header, this just file just extracts it, rather
+ * than having many ifdefs in every file.
+ **/
+
 #pragma once
 
 #if __has_include(<filesystem>)

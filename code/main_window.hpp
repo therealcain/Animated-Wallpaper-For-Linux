@@ -1,3 +1,10 @@
+/**
+ * Created in The 1th of Februrary, 2021 by Eviatar
+ * ------------------------------------------------
+ * This file is where the window and opengl context
+ * are being setted up.
+ **/
+
 #pragma once
 
 class GLFWwindow;

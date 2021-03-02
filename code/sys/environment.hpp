@@ -1,3 +1,10 @@
+/**
+ * Created in The 2th of Februrary, 2021 by Eviatar
+ * ------------------------------------------------
+ * This file is saves all of the necessary 
+ * environment variables of the linux system.
+ **/
+
 #pragma once
 
 #include <string>

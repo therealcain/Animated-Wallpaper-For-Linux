@@ -1,3 +1,10 @@
+/**
+ * Created in The 1th of Februrary, 2021 by Eviatar
+ * ------------------------------------------------
+ * This file is simply creating a macro for the 
+ * assert function to be always in debug mode.
+ **/
+
 #pragma once
 
 #include <assert.h>
