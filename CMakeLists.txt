@@ -16,16 +16,19 @@ if(UNIX)
     # Dekstop envirnoment is Gnome based.
     if(DESKTOP_ENVIRONMENT MATCHES Gnome 
     OR DESKTOP_ENVIRONMENT MATCHES Mate 
-    OR DESKTOP_ENVIRONMENT MATCHES Unity)
+    OR DESKTOP_ENVIRONMENT MATCHES Unity
+    OR DESKTOP_ENVIRONMENT MATCHES Cinnamon)
         add_definitions(-DBASED_DESKTOP_ENVIRONMENT_GNOME)
         set(BASED_DESKTOP_ENVIRONMENT_GNOME)
         
-        if(DESKTOP_ENVIRONMENT MATCHES Gnome)     # Gnome
+        if(DESKTOP_ENVIRONMENT MATCHES Gnome)        # Gnome
             add_definitions(-DDESKTOP_ENVIRONMENT_GNOME)
-        elseif(DESKTOP_ENVIRONMENT MATCHES Mate)  # Mate
+        elseif(DESKTOP_ENVIRONMENT MATCHES Mate)     # Mate
             add_definitions(-DDESKTOP_ENVIRONMENT_MATE)
-        elseif(DESKTOP_ENVIRONMENT MATCHES Unity) # Unity
+        elseif(DESKTOP_ENVIRONMENT MATCHES Unity)    # Unity
             add_definitions(-DDESKTOP_ENVIRONMENT_UNITY)
+        elseif(DESKTOP_ENVIRONMENT MATCHES Cinnamon) # Cinnamon
+            add_definitions(-DDESKTOP_ENVIRONMENT_Cinnamon)
         endif()
     else()
         message(FATAL_ERROR "Please specify your desktop envirnoment. (e.g. -DDESKTOP_ENVIRONMENT=Gnome)")
@@ -61,18 +64,30 @@ if(UNIX)
     endif()
 
     # Compiling
-    add_executable(${CMAKE_PROJECT_NAME}
-        code/main.cpp
-        code/main_app.cpp
-        code/main_window.cpp
-        code/sys/environment.cpp
-        code/main_window.hpp
-        code/main_app.hpp
-        code/sys/environment.hpp
-        code/util/assert.hpp
-        code/std/optional
-        code/std/filesystem
-        code/std/string_view)
+    add_executable(
+        ${CMAKE_PROJECT_NAME}
+            code/main.cpp
+            code/main_app.cpp
+            code/main_window.cpp
+            
+            code/sys/environment.cpp
+            
+            code/renderer/shader.cpp
+
+            code/main_window.hpp
+            code/main_app.hpp
+
+            code/sys/environment.hpp
+            code/renderer/shader.hpp
+
+            code/util/assert.hpp
+            code/util/deubg_print.hpp
+
+            code/std/optional
+            code/std/filesystem
+            code/std/string_view
+            
+            libs/stb_image.h)
 
     target_link_libraries(${CMAKE_PROJECT_NAME} ${X11_LIBRARIES} glfw ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES})
 

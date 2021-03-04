@@ -34,3 +34,5 @@
 # build folder
 build/
 
+# Library folder
+libs/

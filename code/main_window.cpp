@@ -1,5 +1,6 @@
-#include "main_window.hpp"
+#include "main_window.hpp" 
 #include "util/assert.hpp"
+#include "util/deubg_print.hpp"
 
 #include <GL/glew.h>
 
@@ -53,22 +54,14 @@ static void force_window_behind(GLFWwindow& glfw_window)
     // Atom: Always Below Other Windows
     Atom wm_state_below = XInternAtom(dpy, "_NET_WM_STATE_BELOW", 1);
     if(wm_state_below != None)
-    {
-#ifdef BUILD_MODE
-        std::cout << "_NET_WM_STATE_BELOW has atom of " << static_cast<long>(wm_state_below) << std::endl;
-#endif
-    }
+        DEBUG_PRINT("_NET_WM_STATE_BELOW has atom of ", static_cast<long>(wm_state_below));
     else
         throw std::runtime_error("Could not find atom for _NET_WM_STATE_BELOW!\n");
 
     // Finding the window state atom identifier.
     Atom wm_net_state = XInternAtom(dpy, "_NET_WM_STATE", 1);
     if(wm_net_state != None)
-    {
-#ifdef BUILD_MODE
-        std::cout << "_NET_WM_STATE has atom of " << static_cast<long>(wm_net_state) << std::endl;
-#endif
-    }
+        DEBUG_PRINT("_NET_WM_STATE has atom of ", static_cast<long>(wm_net_state));
     else
         throw std::runtime_error("Could not find atom for _NET_WM_STATE!\n");
 
@@ -105,7 +98,7 @@ static void force_window_behind(GLFWwindow& glfw_window)
 
 static void setup_window_settings()
 {
-     // Window settings
+    // Window settings
     glfwWindowHint(GLFW_DECORATED    , false);
     glfwWindowHint(GLFW_RESIZABLE    , false);
     glfwWindowHint(GLFW_FOCUS_ON_SHOW, false);
@@ -134,6 +127,7 @@ static auto sync_monitor_with_window()
    
     monitor_info.width  = static_cast<uint16_t>(mode->width);
     monitor_info.height = static_cast<uint16_t>(mode->height);
+    DEBUG_PRINT("Size: ", monitor_info.width, "x", monitor_info.height);
 
     return monitor_info;
 }

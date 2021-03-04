@@ -1,4 +1,4 @@
-# GNOME:
+GNOME:
   * GNOME 2
   * GNOME 3
   * MATE

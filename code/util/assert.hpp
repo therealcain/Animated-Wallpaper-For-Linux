@@ -18,5 +18,5 @@
 #ifdef DEBUG_MODE
 # define REFUTE_ASSERTION(x) assert(!(x))
 #else
-# define REFUTE_ASSERTION(x)
+# define REFUTE_ASSERTION(x) do { } while(false)
 #endif
