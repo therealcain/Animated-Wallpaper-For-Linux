@@ -16,4 +16,4 @@ If you're in this branch, then you can compile the source code by yourself, but 
 - GLFW:   `apt-get install libglfw3-dev`
 - X11:    `apt-get install libx11-dev`
 - OpenGL: `apt-get install mesa-utils glew-utils libglew-dev`
-- ( More to Come )
+- For Gnome/Mate/Unity users: `apt-get install libglib-2.0-dev libgio-cli`

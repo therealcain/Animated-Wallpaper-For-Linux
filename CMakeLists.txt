@@ -50,7 +50,7 @@ if(UNIX)
     include_directories(${GLEW_INCLUDE_DIR})
 
     # Include Gnome libs
-    if(BASED_DESKTOP_ENVIRONMENT_GNOME)
+    if(DEFINED BASED_DESKTOP_ENVIRONMENT_GNOME)
         # Glib 2.0
         pkg_check_modules(GLIB REQUIRED glib-2.0)
         include_directories(${GLIB_INCLUDE_DIRS})
@@ -77,7 +77,7 @@ if(UNIX)
     target_link_libraries(${CMAKE_PROJECT_NAME} ${X11_LIBRARIES} glfw ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES})
 
     # Link Gnome libs
-    if(BASED_DESKTOP_ENVIRONMENT_GNOME)
+    if(DEFINED BASED_DESKTOP_ENVIRONMENT_GNOME)
         target_link_libraries(${CMAKE_PROJECT_NAME} ${GLIB_LDFLAGS} ${GIO_LDFLAGS})
     endif()
 
