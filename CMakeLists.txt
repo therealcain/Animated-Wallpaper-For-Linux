@@ -73,12 +73,15 @@ if(UNIX)
             code/sys/environment.cpp
             
             code/renderer/shader.cpp
+            code/renderer/gl_log.cpp
 
             code/main_window.hpp
             code/main_app.hpp
 
             code/sys/environment.hpp
+
             code/renderer/shader.hpp
+            code/renderer/gl_log.hpp
 
             code/util/assert.hpp
             code/util/deubg_print.hpp
