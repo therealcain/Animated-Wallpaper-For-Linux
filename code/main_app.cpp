@@ -2,15 +2,10 @@
 
 #include <GL/glew.h>
 
-#include "sys/desktop_info.hpp"
-
 App::App()
 {
     window.create();
     window.create_opengl_context();
-
-    DesktopInfo info;
-    info.load();
 }
 
 bool App::run()

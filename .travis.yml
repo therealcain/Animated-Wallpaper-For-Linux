@@ -27,6 +27,12 @@ install:
   - cd .. # go back to glfw3 folder
   - cd .. # go back to project
 
+  # Glib
+  sudo apt-get install -y libglib2.0-dev
+
+  # GIO
+  sudo apt-get install -y libgio-cli
+
 script:
   # Compiling Debug and Release Mode.
   # GCC

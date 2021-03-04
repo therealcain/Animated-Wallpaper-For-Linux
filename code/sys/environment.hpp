@@ -17,9 +17,7 @@
 class Environment
 {
 public:
-    Environment()                   = delete;
-    Environment(const Environment&) = delete;
-    Environment(Environment&&)      = delete;
+    Environment() = delete;
 
     static const std::string& get_username();
     static const fs::path& get_home_path();
