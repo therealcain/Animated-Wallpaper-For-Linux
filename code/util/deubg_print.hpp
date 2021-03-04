@@ -10,7 +10,13 @@
 #include <iostream>
 
 #ifdef DEBUG_MODE
-# define DEBUG_PRINT(...) fprintf(stderr, __VA_ARGS__, "\n")
+template<typename... Ts> 
+void DEBUG_PRINT(const Ts&... ts) 
+{
+    (std::clog << ... << ts);
+    std::clog << std::endl;
+}
 #else
-# define DEBUG_PRINT(...) do { } while(false)
+template<typename... Ts> 
+inline void DEBUG_PRINT(const Ts&...) {}
 #endif

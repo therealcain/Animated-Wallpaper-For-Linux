@@ -26,7 +26,7 @@ static inline auto create_shaders()
 // Reading the shader file into a string.
 static std::string read_shader(std::string_view path)
 {
-    DEBUG_PRINT("Reading Path: ", path.data());
+    DEBUG_PRINT("[SHADER] Reading Path: ", path.data());
 
     std::string out;
     std::ifstream file(path.data(), std::ios::in | std::ios::ate);
@@ -47,7 +47,7 @@ static std::string read_shader(std::string_view path)
 // Compiling the shader.
 static void compile_shader(const std::string& str, unsigned int& ID, [[maybe_unused]] std::string_view path)
 {
-    DEBUG_PRINT("Compiling shader: ", path.data());
+    DEBUG_PRINT("[SHADER] Compiling shader: ", path.data());
     
     const char* ptr = str.c_str();
     glShaderSource(ID, 1, &ptr, nullptr);
@@ -68,7 +68,7 @@ static void check_shader(unsigned int ID)
 #else
         std::vector<char> error_message(info_length + 1);
         glGetShaderInfoLog(ID, info_length, nullptr, &error_message[0]);
-        DEBUG_PRINT("Shader Error: ", &error_message[0]);
+        DEBUG_PRINT("[SHADER] Error: ", &error_message[0]);
 #endif
     }
 }
@@ -76,7 +76,7 @@ static void check_shader(unsigned int ID)
 // Linking the fragment and vertex shaders together.
 static unsigned int link_shaders(unsigned int vertexID, unsigned int fragmentID)
 {
-    DEBUG_PRINT("Linking Shaders!");
+    DEBUG_PRINT("[SHADER] Linking...");
 
     unsigned int programID = glCreateProgram();
 

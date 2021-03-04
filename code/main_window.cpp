@@ -17,7 +17,7 @@
 
 [[maybe_unused]]
 static void error_callback(int error, const char* desc) {
-    std::cerr << "Error ID: " << error << ", " << desc << std::endl;
+    std::cerr << "[WINDOW] Error ID: " << error << ", " << desc << std::endl;
 }   
 // -------------------------------------------------
 
@@ -54,14 +54,14 @@ static void force_window_behind(GLFWwindow& glfw_window)
     // Atom: Always Below Other Windows
     Atom wm_state_below = XInternAtom(dpy, "_NET_WM_STATE_BELOW", 1);
     if(wm_state_below != None)
-        DEBUG_PRINT("_NET_WM_STATE_BELOW has atom of ", static_cast<long>(wm_state_below));
+        DEBUG_PRINT("[WINDOW] _NET_WM_STATE_BELOW has atom of ", static_cast<long>(wm_state_below));
     else
         throw std::runtime_error("Could not find atom for _NET_WM_STATE_BELOW!\n");
 
     // Finding the window state atom identifier.
     Atom wm_net_state = XInternAtom(dpy, "_NET_WM_STATE", 1);
     if(wm_net_state != None)
-        DEBUG_PRINT("_NET_WM_STATE has atom of ", static_cast<long>(wm_net_state));
+        DEBUG_PRINT("[WINDOW] _NET_WM_STATE has atom of ", static_cast<long>(wm_net_state));
     else
         throw std::runtime_error("Could not find atom for _NET_WM_STATE!\n");
 
@@ -127,7 +127,7 @@ static auto sync_monitor_with_window()
    
     monitor_info.width  = static_cast<uint16_t>(mode->width);
     monitor_info.height = static_cast<uint16_t>(mode->height);
-    DEBUG_PRINT("Size: ", monitor_info.width, "x", monitor_info.height);
+    DEBUG_PRINT("[WINDOW] Size: ", monitor_info.width, "x", monitor_info.height);
 
     return monitor_info;
 }
