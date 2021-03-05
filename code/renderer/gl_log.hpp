@@ -1,3 +1,10 @@
+/**
+ * Created in The 4th of Februrary, 2021 by Eviatar
+ * ------------------------------------------------
+ * When calling opengl functions this is checking
+ * if any of them has errors.
+ **/
+
 #pragma once
 
 extern void gl_print_errors(const char* func, const char* file, int line) noexcept;
@@ -9,5 +16,5 @@ extern void gl_print_errors(const char* func, const char* file, int line) noexce
 #  define GL_LOG(x) do { x; gl_print_errors(#x, "UNKNOWN", -1); } while(false)
 # endif
 #else
-# define GL_LOG(x) do { } while(false)
+# define GL_LOG(x) do { x; } while(false)
 #endif

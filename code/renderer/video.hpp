@@ -1,3 +1,10 @@
+/**
+ * Created in The 5th of Februrary, 2021 by Eviatar
+ * ------------------------------------------------
+ * This file loads and handles the video on the
+ * wallpaper.
+ **/
+
 #pragma once
 
 #include <vlc/vlc.h>
