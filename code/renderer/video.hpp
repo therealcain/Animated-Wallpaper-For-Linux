@@ -14,6 +14,7 @@
 
 #include "shader.hpp"
 
+// https://wiki.videolan.org/LibVLC_SampleCode_SDL/
 class Video
 {
 public:
@@ -21,6 +22,7 @@ public:
     ~Video();
 
     inline auto& get_vlc_player() { return vlc_player; }
+    void draw();
 
 private:
     void setup_vlc(std::string_view path);
@@ -37,8 +39,13 @@ private:
         libvlc_media_player_t* player;
     } vlc_player;
 
-    Shader shader;
-    unsigned int texture_id;
+    struct {
+        Shader shader;
+        unsigned int texture_id;
+        unsigned int vertex_array_object;
+        unsigned int vertex_buffer_object;
+        unsigned int indices_buffer_object;
+    } gl_buffer;
 };
 
 

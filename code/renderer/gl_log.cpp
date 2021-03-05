@@ -33,7 +33,7 @@ void gl_print_errors(const char* func, const char* file, int line) noexcept
 
     while(error != GL_NO_ERROR)
     {
-        std::cerr << "OpenGL Error:\n"
+        std::cerr << "[OpenGL] Error:\n"
                   << "In Function: " << func << "\n"
                   << "In File: "     << file << "\n"
                   << "In Line: "     << line << "\n"

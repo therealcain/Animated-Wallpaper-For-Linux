@@ -22,3 +22,4 @@ If you're in this branch, then you can compile the source code by yourself, but 
 - STB Image: <a href="https://github.com/nothings/stb/blob/master/stb_image.h">Here</a>
 - STB Truetype: <a href="https://github.com/nothings/stb/blob/master/stb_truetype.h">Here</a>
 
+## USE AT YOUR OWN RISK.

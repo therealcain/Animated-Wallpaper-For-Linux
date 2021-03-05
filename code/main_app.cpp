@@ -2,6 +2,8 @@
 
 #include <GL/glew.h>
 
+#include "renderer/video.hpp"
+
 App::App()
 {
     window.create();
@@ -10,15 +12,16 @@ App::App()
 
 bool App::run()
 {
+    Video video("video.mp4", 2560, 1440);   
     while(window.opened())
     {
         // OpenGL
         glClear(GL_COLOR_BUFFER_BIT);
-        glClearColor(1.f, 0.f, 1.f, 1.f);
+//        video.draw();  
 
         // Window
-        window.handle_events();
         window.swap_buffers();
+        window.handle_events();
     }
 
     return true;

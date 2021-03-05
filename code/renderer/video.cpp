@@ -7,6 +7,7 @@
 #include "../../libs/stb_image.h"
 #include <GL/glew.h>
 
+#include "../util/deubg_print.hpp"
 #include "gl_log.hpp"
 
 static void* video_lock_callback(void* obj, void** planes)
@@ -25,6 +26,7 @@ static void video_unlock_callback(void* obj,
     vlc_player.mutex.unlock();
 }
 
+[[maybe_unused]]
 static void video_display_callback(void*, void*) {}
 
 void Video::setup_vlc(std::string_view path)
@@ -56,9 +58,7 @@ void Video::setup_vlc(std::string_view path)
 }
 
 void Video::setup_opengl()
-{
-    shader.load("shaders/video.vs", "shaders/video.fs");
-    
+{    
     glm::mat2x3 indices;
     indices[0][0] = 0; indices[0][1] = 1; indices[0][2] = 2;
     indices[1][0] = 2; indices[1][1] = 3; indices[1][2] = 1;
@@ -68,12 +68,30 @@ void Video::setup_opengl()
     vertices[1][0] = 1; vertices[1][1] = 0;
     vertices[2][0] = 0; vertices[2][1] = 1;
     vertices[3][0] = 1; vertices[3][1] = 1;
+    
+    // Vertex Array Object
+    GL_LOG(glGenVertexArrays(1, &gl_buffer.vertex_array_object));
+    GL_LOG(glBindVertexArray(gl_buffer.vertex_array_object));
+    DEBUG_PRINT(gl_buffer.vertex_array_object);
 
-    shader.bind();
+    gl_buffer.shader.load("shaders/video.vs", "shaders/video.fs");
+    gl_buffer.shader.bind();
+ 
+    GL_LOG(glGenBuffers(1, &gl_buffer.indices_buffer_object));
+    GL_LOG(glBindBuffer(GL_ARRAY_BUFFER, gl_buffer.indices_buffer_object));
+    GL_LOG(glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices[0][0], GL_DYNAMIC_DRAW));
+    
+    GL_LOG(glEnableVertexAttribArray(0));
+    GL_LOG(glVertexAttribPointer(0, 4, GL_FLOAT, false, 0, 0));
+
+    // Vertex Buffer Object
+    GL_LOG(glGenBuffers(1, &gl_buffer.vertex_buffer_object));
+    GL_LOG(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gl_buffer.vertex_buffer_object));
+    GL_LOG(glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(vertices), &vertices[0][0], GL_DYNAMIC_DRAW));
 
     // Setting up the texture
-    GL_LOG(glGenTextures(1, &texture_id));
-    GL_LOG(glBindTexture(GL_TEXTURE_2D, texture_id));
+    GL_LOG(glGenTextures(1, &gl_buffer.texture_id));
+    GL_LOG(glBindTexture(GL_TEXTURE_2D, gl_buffer.texture_id));
     
     GL_LOG(glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR));
     GL_LOG(glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR));
@@ -88,6 +106,25 @@ Video::Video(std::string_view path, uint16_t _width, uint16_t _height)
 {
     setup_vlc(path);
     setup_opengl();
+}
+
+void Video::draw()
+{
+    if(vlc_player.mutex.try_lock())
+    {
+        if(vlc_player.update)
+        {
+            glBindTexture(GL_TEXTURE_2D, gl_buffer.texture_id);
+            glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, vlc_player.pixels_buffer.data());
+        
+            vlc_player.update = false;
+        }
+
+        vlc_player.mutex.unlock();
+    }
+
+    gl_buffer.shader.bind();
 }
 
 Video::~Video()
