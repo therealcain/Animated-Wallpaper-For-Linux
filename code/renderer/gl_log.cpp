@@ -15,7 +15,7 @@
     X(GL_CONTEXT_LOST)                  \
     X(GL_TABLE_TOO_LARGE)
 
-static constexpr std::string_view get_error_as_string(const GLenum error)
+static constexpr std::string_view get_error_as_string(const GLenum error) noexcept
 {
     switch(error)
     {
@@ -27,7 +27,7 @@ static constexpr std::string_view get_error_as_string(const GLenum error)
     return "UNDEFINED";
 }
 
-void gl_print_errors(const char* func, const char* file, int line)
+void gl_print_errors(const char* func, const char* file, int line) noexcept
 {
     GLenum error = glGetError();
 
