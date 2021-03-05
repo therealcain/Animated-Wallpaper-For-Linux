@@ -12,5 +12,13 @@
 class Shader
 {
 public:
-    static unsigned int load(std::string_view vertex, std::string_view fragment);
+    void load(std::string_view vertex_path, std::string_view fragment_path);
+    void bind();
+
+    inline unsigned int id() { return m_id; }
+
+    ~Shader();
+
+private:
+    unsigned int m_id;
 };

@@ -52,6 +52,14 @@ if(UNIX)
     find_package(GLEW REQUIRED)
     include_directories(${GLEW_INCLUDE_DIR})
 
+    # GL Mathematics
+    # find_package(GLM REQUIRED)
+    # include_directories(${GLM_INCLUDE_DIR})
+
+    # Video Lan Client
+    # find_package(VLC REQUIRED)
+    # include_directories(${VLC_INCLUDE_DIR})
+
     # Include Gnome libs
     if(DEFINED BASED_DESKTOP_ENVIRONMENT_GNOME)
         # Glib 2.0
@@ -74,6 +82,7 @@ if(UNIX)
             
             code/renderer/shader.cpp
             code/renderer/gl_log.cpp
+            code/renderer/video.cpp
 
             code/main_window.hpp
             code/main_app.hpp
@@ -82,6 +91,8 @@ if(UNIX)
 
             code/renderer/shader.hpp
             code/renderer/gl_log.hpp
+            code/renderer/video.hpp
+            code/renderer/buffer.hpp
 
             code/util/assert.hpp
             code/util/deubg_print.hpp
@@ -92,7 +103,7 @@ if(UNIX)
             
             libs/stb_image.h)
 
-    target_link_libraries(${CMAKE_PROJECT_NAME} ${X11_LIBRARIES} glfw ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES})
+        target_link_libraries(${CMAKE_PROJECT_NAME} ${X11_LIBRARIES} glfw ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES} vlc)
 
     # Link Gnome libs
     if(DEFINED BASED_DESKTOP_ENVIRONMENT_GNOME)

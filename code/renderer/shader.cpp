@@ -102,7 +102,7 @@ static inline void delete_shaders(unsigned int vertexID, unsigned int fragmentID
     glDeleteShader(fragmentID);
 }
 
-unsigned int Shader::load(std::string_view vertex, std::string_view fragment)
+void Shader::load(std::string_view vertex, std::string_view fragment)
 {
     auto [vertexID, fragmentID] = create_shaders();
 
@@ -120,7 +120,17 @@ unsigned int Shader::load(std::string_view vertex, std::string_view fragment)
 
     unlink_shaders(programID, vertexID, fragmentID);
     delete_shaders(vertexID, fragmentID);
+    
+    m_id = programID;
+}
+// --------------------------------------------------------------
 
-    return programID;
+void Shader::bind() {
+    glUseProgram(m_id);
+}
+// --------------------------------------------------------------
+
+Shader::~Shader() {
+    glDeleteProgram(m_id);
 }
 
