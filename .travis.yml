@@ -18,15 +18,6 @@ install:
   # X11
   - sudo apt-get install -y libx11-dev xorg-dev # X11
 
-  # GLFW3
-  - git clone https://github.com/glfw/glfw.git GLFW3
-  - cd GLFW3 && mkdir build && cd build
-  - cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release
-  - make -j
-  - sudo make install
-  - cd .. # go back to glfw3 folder
-  - cd .. # go back to project
-
   # Glib
   sudo apt-get install -y libglib2.0-dev
 
