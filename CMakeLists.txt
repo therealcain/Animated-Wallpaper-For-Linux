@@ -40,10 +40,7 @@ if(UNIX)
     # X11
     find_package(X11 REQUIRED)
     include_directories(${X11_INCLUDE_DIR})
-    
-    # GLFW
-    find_package(glfw3 REQUIRED)
-
+   
     # OpenGL
     find_package(OpenGL REQUIRED)
     include_directories(${OPENGL_INCLUDE_DIR})
@@ -92,7 +89,6 @@ if(UNIX)
             code/renderer/shader.hpp
             code/renderer/gl_log.hpp
             code/renderer/video.hpp
-            code/renderer/buffer.hpp
 
             code/util/assert.hpp
             code/util/deubg_print.hpp
@@ -103,7 +99,7 @@ if(UNIX)
             
             libs/stb_image.h)
 
-        target_link_libraries(${CMAKE_PROJECT_NAME} ${X11_LIBRARIES} glfw ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES} vlc)
+        target_link_libraries(${CMAKE_PROJECT_NAME} ${X11_LIBRARIES} ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES} vlc)
 
     # Link Gnome libs
     if(DEFINED BASED_DESKTOP_ENVIRONMENT_GNOME)

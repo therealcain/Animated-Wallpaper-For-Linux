@@ -59,6 +59,9 @@ void Video::setup_vlc(std::string_view path)
 
 void Video::setup_opengl()
 {    
+    gl_buffer.shader.load("shaders/video.vs", "shaders/video.fs");
+    gl_buffer.shader.bind();
+ 
     glm::mat2x3 indices;
     indices[0][0] = 0; indices[0][1] = 1; indices[0][2] = 2;
     indices[1][0] = 2; indices[1][1] = 3; indices[1][2] = 1;
@@ -72,17 +75,13 @@ void Video::setup_opengl()
     // Vertex Array Object
     GL_LOG(glGenVertexArrays(1, &gl_buffer.vertex_array_object));
     GL_LOG(glBindVertexArray(gl_buffer.vertex_array_object));
-    DEBUG_PRINT(gl_buffer.vertex_array_object);
 
-    gl_buffer.shader.load("shaders/video.vs", "shaders/video.fs");
-    gl_buffer.shader.bind();
- 
     GL_LOG(glGenBuffers(1, &gl_buffer.indices_buffer_object));
-    GL_LOG(glBindBuffer(GL_ARRAY_BUFFER, gl_buffer.indices_buffer_object));
-    GL_LOG(glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices[0][0], GL_DYNAMIC_DRAW));
+    GL_LOG(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gl_buffer.indices_buffer_object));
+    GL_LOG(glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(vertices), &vertices[0][0], GL_DYNAMIC_DRAW));
     
     GL_LOG(glEnableVertexAttribArray(0));
-    GL_LOG(glVertexAttribPointer(0, 4, GL_FLOAT, false, 0, 0));
+    GL_LOG(glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, 0));
 
     // Vertex Buffer Object
     GL_LOG(glGenBuffers(1, &gl_buffer.vertex_buffer_object));
