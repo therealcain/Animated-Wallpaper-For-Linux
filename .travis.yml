@@ -12,11 +12,11 @@ install:
   # GNU Compiler
   - sudo apt-get install -y g++-8 
 
-  # OpenGL
-  - sudo apt-get install -y mesa-utils libglew-dev glew-utils libglu1-mesa-dev
+  # SDL2
+  - sudo apt-get install -y libsdl2-dev
 
-  # X11
-  - sudo apt-get install -y libx11-dev xorg-dev # X11
+  # VLC
+  - sudo apt-get install -y libvlc-dev
 
   # Glib
   sudo apt-get install -y libglib2.0-dev

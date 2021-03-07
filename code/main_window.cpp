@@ -2,100 +2,17 @@
 #include "util/assert.hpp"
 #include "util/deubg_print.hpp"
 
-#include <X11/Xlib.h>
+#include <SFML/Window/VideoMode.hpp>
+
+#include <X11/X.h>
+#include <X11/Xatom.h>
+
+#include <limits>
 #include <stdexcept>
 #include <iostream>
 #include <cstring>
 #include <array>
-
-#include <X11/X.h>
-#include <X11/Xatom.h>
-#include <X11/Xutil.h>
-
-void MainWindow::create_display()
-{
-    display = XOpenDisplay(nullptr);
-    if(display == nullptr)
-        throw std::runtime_error("[WINDOW] Failed to open XDisplay!");
-}
-// -------------------------------------------------
-
-void MainWindow::prepare_screen() noexcept
-{
-    screen    = DefaultScreenOfDisplay(display);
-    screen_id = DefaultScreen(display);
-}
-// -------------------------------------------------
-
-static void validate_glx_version(Display& display)
-{
-
-    int major, minor;
-    glXQueryVersion(&display, &major, &minor);
-    
-    if(major <= 1 && minor < 4) 
-    {
-        XCloseDisplay(&display);
-        throw std::runtime_error("[WINDOW] GLX 1.4 or greater is required.\n");
-    }
-    
-    DEBUG_PRINT("[WINDOW] GLX Version: Major = ", major, ", Minor = ", minor);
-}
-// -------------------------------------------------
-
-static XVisualInfo* setup_glx_visual(Display& display, int screen_id)
-{
-    std::array<int, 17> attribs {
-        GLX_RGBA,
-        GLX_DOUBLEBUFFER,
-        GLX_DEPTH_SIZE,     24,
-        GLX_STENCIL_SIZE,    8,
-        GLX_RED_SIZE,        8,
-        GLX_GREEN_SIZE,      8,
-        GLX_BLUE_SIZE,       8,
-        GLX_SAMPLE_BUFFERS,  0,
-        GLX_SAMPLES,         0,
-        None
-    };
-
-    XVisualInfo* visual = glXChooseVisual(&display, screen_id, attribs.data());
-    
-    if(visual == nullptr)
-    {
-        XCloseDisplay(&display);
-        throw std::runtime_error("[WINDOW] Could not create correct visual window.\n");
-    }
-
-    return visual;
-}
-// -------------------------------------------------
-
-void MainWindow::open_window() noexcept
-{
-    auto root = RootWindow(display, screen_id);
-
-    window_attribs.border_pixel      = BlackPixel(display, screen_id);
-    window_attribs.background_pixel  = WhitePixel(display, screen_id);
-    window_attribs.override_redirect = true;
-    window_attribs.colormap          = XCreateColormap(display, root, visual->visual, AllocNone);
-    window_attribs.event_mask        = ExposureMask | ButtonPressMask;
-
-    window = XCreateWindow(
-            display, 
-            root, 
-            0, 0, 
-            screen->width, screen->height, 
-            0, 
-            visual->depth, 
-            InputOutput, 
-            visual->visual, 
-                CWBackPixel   | 
-                CWColormap    | 
-                CWBorderPixel | 
-                CWEventMask, 
-            &window_attribs);
-}
-// -------------------------------------------------
+#include <numeric>
 
 static void force_window_behind(Display* dpy, Window& window)
 {   
@@ -140,13 +57,19 @@ static void force_window_behind(Display* dpy, Window& window)
         xclient.data.l[4] = 0;
 
         // Update Settings     
-        XSendEvent(dpy, DefaultRootWindow(dpy), false, SubstructureRedirectMask | SubstructureNotifyMask, reinterpret_cast<XEvent*>(&xclient)); 
+        XSendEvent(
+            dpy, 
+            DefaultRootWindow(dpy), 
+            false, 
+            SubstructureRedirectMask | SubstructureNotifyMask, 
+            reinterpret_cast<XEvent*>(&xclient));
+
         XFlush(dpy);
     }
 }
 // -------------------------------------------------
 
-static void remove_bar(Display* dpy, Window& window)
+static void remove_bar_and_dock(Display* dpy, Window& window)
 {
     REFUTE_ASSERTION(dpy == nullptr);
 
@@ -154,76 +77,120 @@ static void remove_bar(Display* dpy, Window& window)
     if(wm_window_type != None)
         DEBUG_PRINT("[WINDOW] _NET_WM_WINDOW_TYPE has atom of ", static_cast<long int>(wm_window_type));
     else
-        throw std::runtime_error("Could not find atom for _NET_WM_WINDOW_TYPE");
+        throw std::runtime_error("Could not find atom for _NET_WM_WINDOW_TYPE\n");
 
     auto value = XInternAtom(dpy, "_NET_WM_WINDOW_TYPE_DOCK", false);
     XChangeProperty(dpy, window, wm_window_type, XA_ATOM, 32, PropModeReplace, reinterpret_cast<const unsigned char*>(&value), 1);
 }
 // -------------------------------------------------
 
+auto MainWindow::get_monitor_size()
+{
+    struct {
+        uint16_t width, height;
+    } size {
+        static_cast<uint16_t>(sf::VideoMode::getDesktopMode().width),
+        static_cast<uint16_t>(sf::VideoMode::getDesktopMode().height)
+    };
+
+    return size;
+}
+// -------------------------------------------------
+
+void MainWindow::create_xdisplay()
+{
+    // Opening up a connection to the X server.
+    x11.display = XOpenDisplay(nullptr);
+    if(x11.display == nullptr)
+        throw std::runtime_error("Failed to create XDisplay!\n");
+
+    // Default screen.
+    x11.screen_id = DefaultScreen(x11.display);
+}
+// -------------------------------------------------
+
+void MainWindow::create_xwindow()
+{
+    // Creates the main window.
+    XSetWindowAttributes attributes;
+    attributes.background_pixel = BlackPixel(x11.display, x11.screen_id);
+    attributes.event_mask = KeyPressMask;
+    x11.window = XCreateWindow(
+        x11.display, 
+        RootWindow(x11.display, x11.screen_id), 
+        0, 0, 
+        get_monitor_size().width, get_monitor_size().height, 
+        0, 
+        DefaultDepth(x11.display, x11.screen_id), 
+        InputOutput, 
+        DefaultVisual(x11.display, x11.screen_id), 
+        CWBackPixel | CWEventMask, 
+        &attributes);
+
+    if(!x11.window)
+        throw std::runtime_error("Failed to create XWindow!\n");
+
+    XStoreName(x11.display, x11.window, "Better Desktop");
+}
+// -------------------------------------------------
+
+void MainWindow::create_xview()
+{
+    // Creates a window that will serve the SFML view.
+    x11.view = XCreateWindow(
+        x11.display,
+        x11.window,
+        0, 0,
+        get_monitor_size().width, get_monitor_size().height,
+        0,
+        DefaultDepth(x11.display, x11.screen_id),
+        InputOutput,
+        DefaultVisual(x11.display, x11.screen_id),
+        0,
+        nullptr);
+}
+// -------------------------------------------------
+
+void MainWindow::show_xwindow() noexcept
+{
+    XMapWindow(x11.display, x11.window);
+    XMapWindow(x11.display, x11.view);
+    XFlush(x11.display);
+}
+// -------------------------------------------------
+
 void MainWindow::create()
 {
-    create_display();
-    prepare_screen();
-    
-    validate_glx_version(*display);
-    visual = setup_glx_visual(*display, screen_id);
-    open_window();
-    force_window_behind(display, window);
-    remove_bar(display, window);
+    create_xdisplay();
+    create_xwindow();    
+    create_xview();
+    force_window_behind(x11.display, x11.window);
+    remove_bar_and_dock(x11.display, x11.window);
+    show_xwindow();
 
-    XClearWindow(display, window);
-    XMapRaised(display, window);
-
-    window_created = true;
+    window.create(x11.view);
 }
+
 // -------------------------------------------------
 void MainWindow::handle_events() 
 {
-    XNextEvent(display, &event);
+    while(XPending(x11.display))
+    {
+        XEvent event;
+        XNextEvent(x11.display, &event);
+    }
 }
 
-// -------------------------------------------------
-void MainWindow::create_opengl_context()
-{
-    context = glXCreateContext(display, visual, nullptr, true);    
-    glXMakeCurrent(display, window, context);
-
-    // Initializing OpenGL
-    glewExperimental = true;
-    if(glewInit() != GLEW_OK)
-        throw std::runtime_error("[WINDOW] Failed to initialize GLEW!\n");
-    
-    DEBUG_PRINT("[OpenGL] Vendor:   " , glGetString(GL_VENDOR));
-    DEBUG_PRINT("[OPENGL] Renderer: " , glGetString(GL_RENDERER)); 
-    DEBUG_PRINT("[OPENGL] Version:  " , glGetString(GL_VERSION));
-    DEBUG_PRINT("[OPENGL] GLSL:     " , glGetString(GL_SHADING_LANGUAGE_VERSION));
-
-    context_created = true;
-    glViewport(0, 0, screen->width, screen->height);
-}
-// -------------------------------------------------
-
-void MainWindow::swap_buffers() {
-    glXSwapBuffers(display, window);
-}
 // -------------------------------------------------
 
 MainWindow::~MainWindow()
 {
-    if(window_created)
+    if(x11.opened)
     {
-        XFree(visual);
-        XFreeColormap(display, window_attribs.colormap);
-        XDestroyWindow(display, window);
-        XCloseDisplay(display);
-        window_created = false;
-
-        if(context_created)
-        {
-            glXDestroyContext(display, context);
-            context_created = false;
-        }
+        // Disconnect
+        XCloseDisplay(x11.display);
+        x11.opened = false;
     }
 }
+
 

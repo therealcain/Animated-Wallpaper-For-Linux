@@ -41,13 +41,8 @@ if(UNIX)
     find_package(X11 REQUIRED)
     include_directories(${X11_INCLUDE_DIR})
    
-    # OpenGL
-    find_package(OpenGL REQUIRED)
-    include_directories(${OPENGL_INCLUDE_DIR})
-
-    # OpenGL Extension Wrangler
-    find_package(GLEW REQUIRED)
-    include_directories(${GLEW_INCLUDE_DIR})
+    # SFML
+    find_package(SFML 2.5 COMPONENTS graphics window REQUIRED)
 
     # GL Mathematics
     # find_package(GLM REQUIRED)
@@ -77,29 +72,19 @@ if(UNIX)
             
             code/sys/environment.cpp
             
-            code/renderer/shader.cpp
-            code/renderer/gl_log.cpp
-            code/renderer/video.cpp
-
             code/main_window.hpp
             code/main_app.hpp
 
             code/sys/environment.hpp
-
-            code/renderer/shader.hpp
-            code/renderer/gl_log.hpp
-            code/renderer/video.hpp
 
             code/util/assert.hpp
             code/util/deubg_print.hpp
 
             code/std/optional
             code/std/filesystem
-            code/std/string_view
-            
-            libs/stb_image.h)
+            code/std/string_view)
 
-        target_link_libraries(${CMAKE_PROJECT_NAME} ${X11_LIBRARIES} ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES} vlc)
+        target_link_libraries(${CMAKE_PROJECT_NAME} ${X11_LIBRARIES} sfml-graphics sfml-window vlc)
 
     # Link Gnome libs
     if(DEFINED BASED_DESKTOP_ENVIRONMENT_GNOME)

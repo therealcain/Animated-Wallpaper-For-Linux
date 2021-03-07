@@ -7,8 +7,8 @@
 
 #pragma once
 
-#include <GL/glew.h>
-#include <GL/glx.h>
+#include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Drawable.hpp>
 
 #include <X11/Xlib.h>
 
@@ -19,32 +19,29 @@ public:
     ~MainWindow();
     
     void create();
-    constexpr bool opened() const { return true; }
     void handle_events();
+    static auto get_monitor_size();
 
-    // OpenGL functionalities
-    void create_opengl_context();
-    void swap_buffers();
-
-private:
-    void create_display();
-    void prepare_screen() noexcept;
-    void open_window() noexcept;
+    constexpr bool opened() const       { return true;      }
+    inline void clear()                 { window.clear();   }
+    inline void draw(sf::Drawable& obj) { window.draw(obj); }
+    inline void display()               { window.display(); }
 
 private:
-    Display*     display;
-    Screen*      screen;
-    int          screen_id;
-    
-    Window               window;
-    XSetWindowAttributes window_attribs;
+    void create_xdisplay();
+    void create_xwindow();
+    void create_xview();
+    void show_xwindow() noexcept;
 
-    XEvent event;
-
-    XVisualInfo* visual;
-    GLXContext   context;
+private:
+    struct {
+        Display* display = nullptr;
+        Window window;
+        Window view;
+        int screen_id;
+        bool opened;
+    } x11;
     
-    bool window_created  = false;
-    bool context_created = false;
+    sf::RenderWindow window;
 };
 
